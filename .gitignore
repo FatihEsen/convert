@@ -1,0 +1,38 @@
+# Gradle cache
+.gradle/
+build/
+app/build/
+
+# Gradle Wrapper
+# This ignores the JAR file but keeps the properties file
+/gradle/wrapper/gradle-wrapper.jar
+
+# Local configuration
+local.properties
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings
+
+# Log files
+*.log
+build_error_log.txt
+build_log.txt
+compile_log.txt
+
+# Memory heap dumps
+*.hprof
+java_pid*.hprof
+
+# Kotlin build cache
+.kotlin/
+
+# Visual Studio Code settings
+# You may want to commit this directory if you want to share VS Code settings with your team
+.vscode/
+

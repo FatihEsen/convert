@@ -1,0 +1,7 @@
+/home/fatih/Documents/convert/app/src/main/java/com/fatih/musicconverter/ui/theme/Theme.kt
+/home/fatih/Documents/convert/app/src/main/java/com/fatih/musicconverter/utils/NotificationHelper.kt
+/home/fatih/Documents/convert/app/src/main/java/com/fatih/musicconverter/ui/theme/Color.kt
+/home/fatih/Documents/convert/app/src/main/java/com/fatih/musicconverter/model/MusicFile.kt
+/home/fatih/Documents/convert/app/src/main/java/com/fatih/musicconverter/MainActivity.kt
+/home/fatih/Documents/convert/app/src/main/java/com/fatih/musicconverter/utils/MetadataParser.kt
+/home/fatih/Documents/convert/app/src/main/java/com/fatih/musicconverter/ui/theme/Type.kt

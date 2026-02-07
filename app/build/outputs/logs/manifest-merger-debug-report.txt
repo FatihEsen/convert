@@ -1,0 +1,400 @@
+-- Merging decision tree log ---
+provider#androidx.core.content.FileProvider
+INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:38:9-46:20
+	android:grantUriPermissions
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:42:13-47
+	android:authorities
+		INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:40:13-64
+	android:exported
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:41:13-37
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:39:13-62
+manifest
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:2:1-49:12
+MERGED from [androidx.compose.material3:material3-android:1.2.0] /home/fatih/.gradle/caches/9.3.0/transforms/f60e9eeff522585747979b864df29d8e/transformed/material3-release/AndroidManifest.xml:17:1-22:12
+MERGED from [io.coil-kt:coil-compose:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/ab3d758337e08e95f87345ade05638e9/transformed/coil-compose-2.6.0/AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil-compose-base:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/68b5cc6b0a271869d13bc1326a9e6c3f/transformed/coil-compose-base-2.6.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/dc537062d33a32e27c87fd36fbe79f58/transformed/material-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/8d2cf023f21da25380a4b29dea6b027f/transformed/material-icons-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/024221887bf1f5eb3aae39b473d0951a/transformed/material-icons-extended-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-ripple-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/ac465fce4c9fced4933d323a3d5b3742/transformed/material-ripple-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-core-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1432e268776d2edac01c5f43cec3a6a2/transformed/animation-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/cce0ae4233ef84b9b75cfafcc995850f/transformed/animation-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/f4dfda6e0778152759547a53636294f8/transformed/foundation-layout-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/2edd3102c2d05f746f607a642fca0a25/transformed/foundation-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/46b89020a5b3102ee52411190e97abcb/transformed/ui-tooling-data-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-unit-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/389d0e1ac43301f087e8fe7e0b39b732/transformed/ui-unit-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-geometry-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/08ae682b4a6ed8232dce1c5bb63e602d/transformed/ui-geometry-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-util-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/41c9a6126f10358d13ac7da0fbc4becc/transformed/ui-util-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-text-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/50e3f651dc108aa9ce9fc25dfa7145d0/transformed/ui-text-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/3f4e7957f5e9f2484bf1c3c740d65aa6/transformed/ui-tooling-preview-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-graphics-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/775ff4028781d98f5a3bdcb44bd64025/transformed/ui-graphics-release/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] /home/fatih/.gradle/caches/9.3.0/transforms/e144077bbdc017b3e05f4f3a223942d4/transformed/accompanist-drawablepainter-0.32.0/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.compose.ui:ui-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/44c84a900f22b979dc45ae086b2c4ea7/transformed/ui-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-test-manifest:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/449f2e7adab3f876f9818cc0a98a712d/transformed/ui-test-manifest-1.6.2/AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.compose.ui:ui-tooling-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1bffeed59b3172f7176db74d1ed6ff85/transformed/ui-tooling-release/AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.activity:activity-compose:1.8.2] /home/fatih/.gradle/caches/9.3.0/transforms/22a7ead1ddefa5f6c5557e177b1d5e26/transformed/activity-compose-1.8.2/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity-ktx:1.8.2] /home/fatih/.gradle/caches/9.3.0/transforms/12ed552d5ca09614f4df7b9a40f2a554/transformed/activity-ktx-1.8.2/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity:1.8.2] /home/fatih/.gradle/caches/9.3.0/transforms/86c5708e32a7b0f796702e9a8564c4b8/transformed/activity-1.8.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.autofill:autofill:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/f3dfdb2c944428b11bd5d46d810d2c3e/transformed/autofill-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [io.coil-kt:coil:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/05f2f146e995ddac8fbdfe4278c2d197/transformed/coil-2.6.0/AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil-base:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/50ad5288f41cafdfdaa23c08e4886f70/transformed/coil-base-2.6.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /home/fatih/.gradle/caches/9.3.0/transforms/c3c08d8619ce3ede6a2b11e07ada84b2/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/fatih/.gradle/caches/9.3.0/transforms/c8acd8208c77fcaa65313810ec6965db/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/fatih/.gradle/caches/9.3.0/transforms/cb5c31d2536c83bac0f6093b37bc81b5/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/29f7687ad5d0edd830b5f48a9dc2feef/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/a6e6b79ec41ca241f160ceeed362c9b6/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/cdfe4e1c5f4b0b327bdf72e62851cfaa/transformed/lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/ef19c83bfa58366026e39551b98ababb/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/59106bf4e9f375953883d63be12db22a/transformed/lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/d4c371da295e8096759f2c60daec8422/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /home/fatih/.gradle/caches/9.3.0/transforms/df0c722d51e4387414b995d64635b6c6/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/fatih/.gradle/caches/9.3.0/transforms/e0022e1ee804bf6981fbb9b508b36a98/transformed/savedstate-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/e42e703de85a4f5aff828248d0e1d3a1/transformed/lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/4ce033d5338342bf410e9294f8a0c544/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.core:core-ktx:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/236a5d23dc700afd1a01462c78523e10/transformed/core-ktx-1.12.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/5e4960dcc742a0bcc7af73e7e78d2f53/transformed/runtime-saveable-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/e6d432a68ad698182791556738690bc4/transformed/runtime-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /home/fatih/.gradle/caches/9.3.0/transforms/ab110373624c88c29a1d86501db5ee92/transformed/annotation-experimental-1.4.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/a27802bb0ac11b4ac8216de2e16eb55c/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.documentfile:documentfile:1.0.1] /home/fatih/.gradle/caches/9.3.0/transforms/e020ad399e9f34062d5e07ed399a0815/transformed/documentfile-1.0.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/11b165b2a8ab75f945bc016f586cbd40/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/fatih/.gradle/caches/9.3.0/transforms/eac8abbada98e18d14262ccfbc9038b9/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/6744dc950dd5f7eaf086ecc844df896e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/3415f48d15d4edaa057bfc8dd17ea19d/transformed/tracing-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] /home/fatih/.gradle/caches/9.3.0/transforms/9430f3c1495b7eec3e410d9ef0c4777f/transformed/exifinterface-1.3.7/AndroidManifest.xml:17:1-24:12
+MERGED from [com.moizhassan.ffmpeg:ffmpeg-kit-16kb:6.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/6706ba2a7e797e6f0f162fc729eabc17/transformed/ffmpeg-kit-16kb-6.1.1/AndroidManifest.xml:2:1-7:12
+	package
+		INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml
+	xmlns:tools
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:6:5-107
+	android:maxSdkVersion
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:6:78-104
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:6:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:7:5-108
+	android:maxSdkVersion
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:7:79-105
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:7:22-78
+uses-permission#android.permission.READ_MEDIA_AUDIO
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:8:5-75
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:8:22-72
+uses-permission#android.permission.MANAGE_EXTERNAL_STORAGE
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:9:5-111
+	tools:ignore
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:9:80-108
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:9:22-79
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:12:5-77
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:12:22-74
+uses-permission#android.permission.VIBRATE
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:16:5-66
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:16:22-63
+application
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:18:5-47:19
+INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:18:5-47:19
+MERGED from [androidx.compose.ui:ui-test-manifest:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/449f2e7adab3f876f9818cc0a98a712d/transformed/ui-test-manifest-1.6.2/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-test-manifest:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/449f2e7adab3f876f9818cc0a98a712d/transformed/ui-test-manifest-1.6.2/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-tooling-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1bffeed59b3172f7176db74d1ed6ff85/transformed/ui-tooling-release/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-tooling-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1bffeed59b3172f7176db74d1ed6ff85/transformed/ui-tooling-release/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:28:5-89
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/29f7687ad5d0edd830b5f48a9dc2feef/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/29f7687ad5d0edd830b5f48a9dc2feef/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/a27802bb0ac11b4ac8216de2e16eb55c/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/a27802bb0ac11b4ac8216de2e16eb55c/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/6744dc950dd5f7eaf086ecc844df896e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/6744dc950dd5f7eaf086ecc844df896e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+	android:extractNativeLibs
+		INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml
+	android:requestLegacyExternalStorage
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:24:9-52
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:23:9-35
+	android:label
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:21:9-41
+	android:roundIcon
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:22:9-59
+	android:largeHeap
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:25:9-33
+	android:icon
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:20:9-54
+	android:allowBackup
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:19:9-35
+	android:theme
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:26:9-52
+activity#com.fatih.musicconverter.MainActivity
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:27:9-36:20
+	android:label
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:30:13-45
+	android:exported
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:29:13-36
+	android:theme
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:31:13-56
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:28:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:32:13-35:29
+action#android.intent.action.MAIN
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:33:17-69
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:33:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:34:17-77
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:34:27-74
+meta-data#android.support.FILE_PATHS
+ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:43:13-45:53
+	android:resource
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:45:17-50
+	android:name
+		ADDED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml:44:17-58
+uses-sdk
+INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml
+INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml
+MERGED from [androidx.compose.material3:material3-android:1.2.0] /home/fatih/.gradle/caches/9.3.0/transforms/f60e9eeff522585747979b864df29d8e/transformed/material3-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material3:material3-android:1.2.0] /home/fatih/.gradle/caches/9.3.0/transforms/f60e9eeff522585747979b864df29d8e/transformed/material3-release/AndroidManifest.xml:20:5-44
+MERGED from [io.coil-kt:coil-compose:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/ab3d758337e08e95f87345ade05638e9/transformed/coil-compose-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/ab3d758337e08e95f87345ade05638e9/transformed/coil-compose-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose-base:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/68b5cc6b0a271869d13bc1326a9e6c3f/transformed/coil-compose-base-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose-base:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/68b5cc6b0a271869d13bc1326a9e6c3f/transformed/coil-compose-base-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/dc537062d33a32e27c87fd36fbe79f58/transformed/material-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/dc537062d33a32e27c87fd36fbe79f58/transformed/material-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/8d2cf023f21da25380a4b29dea6b027f/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/8d2cf023f21da25380a4b29dea6b027f/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/024221887bf1f5eb3aae39b473d0951a/transformed/material-icons-extended-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/024221887bf1f5eb3aae39b473d0951a/transformed/material-icons-extended-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/ac465fce4c9fced4933d323a3d5b3742/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/ac465fce4c9fced4933d323a3d5b3742/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1432e268776d2edac01c5f43cec3a6a2/transformed/animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1432e268776d2edac01c5f43cec3a6a2/transformed/animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/cce0ae4233ef84b9b75cfafcc995850f/transformed/animation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/cce0ae4233ef84b9b75cfafcc995850f/transformed/animation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/f4dfda6e0778152759547a53636294f8/transformed/foundation-layout-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/f4dfda6e0778152759547a53636294f8/transformed/foundation-layout-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/2edd3102c2d05f746f607a642fca0a25/transformed/foundation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/2edd3102c2d05f746f607a642fca0a25/transformed/foundation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/46b89020a5b3102ee52411190e97abcb/transformed/ui-tooling-data-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/46b89020a5b3102ee52411190e97abcb/transformed/ui-tooling-data-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/389d0e1ac43301f087e8fe7e0b39b732/transformed/ui-unit-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/389d0e1ac43301f087e8fe7e0b39b732/transformed/ui-unit-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/08ae682b4a6ed8232dce1c5bb63e602d/transformed/ui-geometry-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/08ae682b4a6ed8232dce1c5bb63e602d/transformed/ui-geometry-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/41c9a6126f10358d13ac7da0fbc4becc/transformed/ui-util-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/41c9a6126f10358d13ac7da0fbc4becc/transformed/ui-util-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/50e3f651dc108aa9ce9fc25dfa7145d0/transformed/ui-text-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/50e3f651dc108aa9ce9fc25dfa7145d0/transformed/ui-text-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/3f4e7957f5e9f2484bf1c3c740d65aa6/transformed/ui-tooling-preview-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/3f4e7957f5e9f2484bf1c3c740d65aa6/transformed/ui-tooling-preview-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/775ff4028781d98f5a3bdcb44bd64025/transformed/ui-graphics-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/775ff4028781d98f5a3bdcb44bd64025/transformed/ui-graphics-release/AndroidManifest.xml:5:5-44
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] /home/fatih/.gradle/caches/9.3.0/transforms/e144077bbdc017b3e05f4f3a223942d4/transformed/accompanist-drawablepainter-0.32.0/AndroidManifest.xml:21:5-44
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] /home/fatih/.gradle/caches/9.3.0/transforms/e144077bbdc017b3e05f4f3a223942d4/transformed/accompanist-drawablepainter-0.32.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.compose.ui:ui-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/44c84a900f22b979dc45ae086b2c4ea7/transformed/ui-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/44c84a900f22b979dc45ae086b2c4ea7/transformed/ui-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-test-manifest:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/449f2e7adab3f876f9818cc0a98a712d/transformed/ui-test-manifest-1.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-test-manifest:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/449f2e7adab3f876f9818cc0a98a712d/transformed/ui-test-manifest-1.6.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1bffeed59b3172f7176db74d1ed6ff85/transformed/ui-tooling-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1bffeed59b3172f7176db74d1ed6ff85/transformed/ui-tooling-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-compose:1.8.2] /home/fatih/.gradle/caches/9.3.0/transforms/22a7ead1ddefa5f6c5557e177b1d5e26/transformed/activity-compose-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-compose:1.8.2] /home/fatih/.gradle/caches/9.3.0/transforms/22a7ead1ddefa5f6c5557e177b1d5e26/transformed/activity-compose-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.8.2] /home/fatih/.gradle/caches/9.3.0/transforms/12ed552d5ca09614f4df7b9a40f2a554/transformed/activity-ktx-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.8.2] /home/fatih/.gradle/caches/9.3.0/transforms/12ed552d5ca09614f4df7b9a40f2a554/transformed/activity-ktx-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity:1.8.2] /home/fatih/.gradle/caches/9.3.0/transforms/86c5708e32a7b0f796702e9a8564c4b8/transformed/activity-1.8.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.8.2] /home/fatih/.gradle/caches/9.3.0/transforms/86c5708e32a7b0f796702e9a8564c4b8/transformed/activity-1.8.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.autofill:autofill:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/f3dfdb2c944428b11bd5d46d810d2c3e/transformed/autofill-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/f3dfdb2c944428b11bd5d46d810d2c3e/transformed/autofill-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [io.coil-kt:coil:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/05f2f146e995ddac8fbdfe4278c2d197/transformed/coil-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/05f2f146e995ddac8fbdfe4278c2d197/transformed/coil-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-base:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/50ad5288f41cafdfdaa23c08e4886f70/transformed/coil-base-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-base:2.6.0] /home/fatih/.gradle/caches/9.3.0/transforms/50ad5288f41cafdfdaa23c08e4886f70/transformed/coil-base-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /home/fatih/.gradle/caches/9.3.0/transforms/c3c08d8619ce3ede6a2b11e07ada84b2/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /home/fatih/.gradle/caches/9.3.0/transforms/c3c08d8619ce3ede6a2b11e07ada84b2/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/fatih/.gradle/caches/9.3.0/transforms/c8acd8208c77fcaa65313810ec6965db/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/fatih/.gradle/caches/9.3.0/transforms/c8acd8208c77fcaa65313810ec6965db/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/fatih/.gradle/caches/9.3.0/transforms/cb5c31d2536c83bac0f6093b37bc81b5/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/fatih/.gradle/caches/9.3.0/transforms/cb5c31d2536c83bac0f6093b37bc81b5/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/29f7687ad5d0edd830b5f48a9dc2feef/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/29f7687ad5d0edd830b5f48a9dc2feef/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/a6e6b79ec41ca241f160ceeed362c9b6/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/a6e6b79ec41ca241f160ceeed362c9b6/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/cdfe4e1c5f4b0b327bdf72e62851cfaa/transformed/lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/cdfe4e1c5f4b0b327bdf72e62851cfaa/transformed/lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/ef19c83bfa58366026e39551b98ababb/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/ef19c83bfa58366026e39551b98ababb/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/59106bf4e9f375953883d63be12db22a/transformed/lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/59106bf4e9f375953883d63be12db22a/transformed/lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/d4c371da295e8096759f2c60daec8422/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/d4c371da295e8096759f2c60daec8422/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /home/fatih/.gradle/caches/9.3.0/transforms/df0c722d51e4387414b995d64635b6c6/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /home/fatih/.gradle/caches/9.3.0/transforms/df0c722d51e4387414b995d64635b6c6/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/fatih/.gradle/caches/9.3.0/transforms/e0022e1ee804bf6981fbb9b508b36a98/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /home/fatih/.gradle/caches/9.3.0/transforms/e0022e1ee804bf6981fbb9b508b36a98/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/e42e703de85a4f5aff828248d0e1d3a1/transformed/lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/e42e703de85a4f5aff828248d0e1d3a1/transformed/lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/4ce033d5338342bf410e9294f8a0c544/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/4ce033d5338342bf410e9294f8a0c544/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.core:core-ktx:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/236a5d23dc700afd1a01462c78523e10/transformed/core-ktx-1.12.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/236a5d23dc700afd1a01462c78523e10/transformed/core-ktx-1.12.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/5e4960dcc742a0bcc7af73e7e78d2f53/transformed/runtime-saveable-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/5e4960dcc742a0bcc7af73e7e78d2f53/transformed/runtime-saveable-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/e6d432a68ad698182791556738690bc4/transformed/runtime-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/e6d432a68ad698182791556738690bc4/transformed/runtime-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /home/fatih/.gradle/caches/9.3.0/transforms/ab110373624c88c29a1d86501db5ee92/transformed/annotation-experimental-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /home/fatih/.gradle/caches/9.3.0/transforms/ab110373624c88c29a1d86501db5ee92/transformed/annotation-experimental-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/a27802bb0ac11b4ac8216de2e16eb55c/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/a27802bb0ac11b4ac8216de2e16eb55c/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.documentfile:documentfile:1.0.1] /home/fatih/.gradle/caches/9.3.0/transforms/e020ad399e9f34062d5e07ed399a0815/transformed/documentfile-1.0.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.1] /home/fatih/.gradle/caches/9.3.0/transforms/e020ad399e9f34062d5e07ed399a0815/transformed/documentfile-1.0.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/11b165b2a8ab75f945bc016f586cbd40/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/11b165b2a8ab75f945bc016f586cbd40/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/fatih/.gradle/caches/9.3.0/transforms/eac8abbada98e18d14262ccfbc9038b9/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/fatih/.gradle/caches/9.3.0/transforms/eac8abbada98e18d14262ccfbc9038b9/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/6744dc950dd5f7eaf086ecc844df896e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/6744dc950dd5f7eaf086ecc844df896e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/3415f48d15d4edaa057bfc8dd17ea19d/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /home/fatih/.gradle/caches/9.3.0/transforms/3415f48d15d4edaa057bfc8dd17ea19d/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] /home/fatih/.gradle/caches/9.3.0/transforms/9430f3c1495b7eec3e410d9ef0c4777f/transformed/exifinterface-1.3.7/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] /home/fatih/.gradle/caches/9.3.0/transforms/9430f3c1495b7eec3e410d9ef0c4777f/transformed/exifinterface-1.3.7/AndroidManifest.xml:20:5-22:41
+MERGED from [com.moizhassan.ffmpeg:ffmpeg-kit-16kb:6.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/6706ba2a7e797e6f0f162fc729eabc17/transformed/ffmpeg-kit-16kb-6.1.1/AndroidManifest.xml:5:5-44
+MERGED from [com.moizhassan.ffmpeg:ffmpeg-kit-16kb:6.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/6706ba2a7e797e6f0f162fc729eabc17/transformed/ffmpeg-kit-16kb-6.1.1/AndroidManifest.xml:5:5-44
+	android:targetSdkVersion
+		INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/fatih/Documents/convert/app/src/main/AndroidManifest.xml
+activity#androidx.activity.ComponentActivity
+ADDED from [androidx.compose.ui:ui-test-manifest:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/449f2e7adab3f876f9818cc0a98a712d/transformed/ui-test-manifest-1.6.2/AndroidManifest.xml:23:9-25:39
+	android:exported
+		ADDED from [androidx.compose.ui:ui-test-manifest:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/449f2e7adab3f876f9818cc0a98a712d/transformed/ui-test-manifest-1.6.2/AndroidManifest.xml:25:13-36
+	android:name
+		ADDED from [androidx.compose.ui:ui-test-manifest:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/449f2e7adab3f876f9818cc0a98a712d/transformed/ui-test-manifest-1.6.2/AndroidManifest.xml:24:13-63
+activity#androidx.compose.ui.tooling.PreviewActivity
+ADDED from [androidx.compose.ui:ui-tooling-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1bffeed59b3172f7176db74d1ed6ff85/transformed/ui-tooling-release/AndroidManifest.xml:23:9-25:39
+	android:exported
+		ADDED from [androidx.compose.ui:ui-tooling-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1bffeed59b3172f7176db74d1ed6ff85/transformed/ui-tooling-release/AndroidManifest.xml:25:13-36
+	android:name
+		ADDED from [androidx.compose.ui:ui-tooling-android:1.6.2] /home/fatih/.gradle/caches/9.3.0/transforms/1bffeed59b3172f7176db74d1ed6ff85/transformed/ui-tooling-release/AndroidManifest.xml:24:13-71
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/29f7687ad5d0edd830b5f48a9dc2feef/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/29f7687ad5d0edd830b5f48a9dc2feef/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/6744dc950dd5f7eaf086ecc844df896e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] /home/fatih/.gradle/caches/9.3.0/transforms/6744dc950dd5f7eaf086ecc844df896e/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /home/fatih/.gradle/caches/9.3.0/transforms/e0e0c7ab5c4cf048acc3916e8923c8b0/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+permission#com.fatih.musicconverter.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+uses-permission#com.fatih.musicconverter.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/29f7687ad5d0edd830b5f48a9dc2feef/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/29f7687ad5d0edd830b5f48a9dc2feef/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /home/fatih/.gradle/caches/9.3.0/transforms/29f7687ad5d0edd830b5f48a9dc2feef/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/fatih/.gradle/caches/9.3.0/transforms/87ad6c5ca19a3f549a54b2cc623ed249/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92

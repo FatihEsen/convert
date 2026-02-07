@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.fatih.musicconverter.app-mergeDebugResources-46:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "/home/fatih/.gradle/caches/9.3.0/transforms/3ee9173eb92a26a98ba89fabf0e92f84/transformed/core-1.12.0/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                }
+            ]
+        }
+    ]
+}

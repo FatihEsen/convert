@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_file">Dosya Ekle</string>
+    <string name="add_music_files">Henüz müzik eklemedin, hemen ekle!</string>
+    <string name="app_name">Müzik Dönüştürücü</string>
+    <string name="artist">Sanatçı</string>
+    <string name="batch_edit">Seçilenleri Düzenle</string>
+    <string name="cancel_button">Vazgeç</string>
+    <string name="cancel_conversion">İşlemi Durdur</string>
+    <string name="convert">Dönüştür</string>
+    <string name="convert_files_to">Dosyayı şuna çevir:</string>
+    <string name="converting">İşleniyor</string>
+    <string name="deselect_all">Seçimi Kaldır</string>
+    <string name="done_all">Harika! Tüm dosyalar hazır. 🎉</string>
+    <string name="edit_tags">Bilgileri Düzenle</string>
+    <string name="format">Dosya Formatı</string>
+    <string name="history">Geçmiş</string>
+    <string name="output_directory">Çıktı Klasörü</string>
+    <string name="quality">Ses Kalitesi</string>
+    <string name="save">Uygula</string>
+    <string name="select_all">Tümünü Seç</string>
+    <string name="select_directory">Klasör Seç</string>
+    <string name="settings">Ayarlar</string>
+    <string name="share">Paylaş</string>
+    <string name="title">Şarkı Adı</string>
+    <string name="track">Parça No</string>
+    <string name="track_number">Sıra No</string>
+    <string name="unknown">Bilinmeyen</string>
+    <style name="Theme.MusicConverter" parent="android:Theme.Material.NoActionBar"/>
+</resources>

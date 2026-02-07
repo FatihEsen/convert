@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Müzik Dönüştürücü</string>
+    <string name="add_file">Dosya Ekle</string>
+    <string name="convert">Dönüştür</string>
+    <string name="title">Şarkı Adı</string>
+    <string name="artist">Sanatçı</string>
+    <string name="track">Parça No</string>
+    <string name="format">Dosya Formatı</string>
+    <string name="settings">Ayarlar</string>
+    <string name="history">Geçmiş</string>
+    <string name="output_directory">Çıktı Klasörü</string>
+    <string name="select_directory">Klasör Seç</string>
+    <string name="quality">Ses Kalitesi</string>
+    <string name="add_music_files">Henüz müzik eklemedin, hemen ekle!</string>
+    <string name="converting">İşleniyor</string>
+    <string name="cancel_conversion">İşlemi Durdur</string>
+    <string name="convert_files_to">Dosyayı şuna çevir:</string>
+    <string name="unknown">Bilinmeyen</string>
+    <string name="edit_tags">Bilgileri Düzenle</string>
+    <string name="track_number">Sıra No</string>
+    <string name="save">Uygula</string>
+    <string name="cancel_button">Vazgeç</string>
+    <string name="batch_edit">Seçili olanları Düzenle</string>
+    <string name="share">Paylaş</string>
+    <string name="done_all">Tüm işlemler başarıyla bitti!</string>
+    <string name="select_all">Hepsini Seç</string>
+</resources>

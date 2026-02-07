@@ -1,0 +1,30 @@
+R_DEF: Internal format may change without notice
+local
+string add_file
+string add_music_files
+string app_name
+string artist
+string batch_edit
+string cancel_button
+string cancel_conversion
+string convert
+string convert_files_to
+string converting
+string deselect_all
+string done_all
+string edit_tags
+string format
+string history
+string output_directory
+string quality
+string save
+string select_all
+string select_directory
+string settings
+string share
+string title
+string track
+string track_number
+string unknown
+style Theme.MusicConverter
+xml filepaths

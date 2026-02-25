@@ -14,6 +14,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -27,22 +30,25 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import coil.compose.AsyncImage
-import androidx.compose.ui.graphics.Brush
+import com.arthenica.ffmpegkit.FFmpegKit
+import com.arthenica.ffmpegkit.ReturnCode
 import com.fatih.musicconverter.model.MusicFile
 import com.fatih.musicconverter.model.MusicMetadata
 import com.fatih.musicconverter.ui.theme.MusicConverterTheme
 import com.fatih.musicconverter.utils.MetadataParser
 import com.fatih.musicconverter.utils.NotificationHelper
-import com.arthenica.ffmpegkit.FFmpegKit
-import com.arthenica.ffmpegkit.ReturnCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -50,23 +56,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
-import com.fatih.musicconverter.R
+import java.util.UUID
+import kotlin.random.Random
 import android.os.Vibrator
 import android.os.VibrationEffect
 import android.media.ToneGenerator
 import android.media.AudioManager
-import androidx.core.content.FileProvider
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
-import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.graphics.nativeCanvas
-import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
         setContent {
             MusicConverterTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -85,9 +84,8 @@ fun sanitizeFileName(name: String): String {
     )
     var result = name
     turkishMap.forEach { (k, v) -> result = result.replace(k, v) }
-    // Allow dots, hyphens and spaces for better readability
     result = result.replace(Regex("[^a-zA-Z0-9._\\- ]"), "_")
-    if (result.length > 80) result = result.take(80) // Increased limit for artist - title
+    if (result.length > 80) result = result.take(80)
     return result
 }
 
@@ -95,27 +93,17 @@ suspend fun convertAudioWithResult(context: Context, inputPath: String, outputFi
     var tempInputFile: File? = null
     var tempOutputFile: File? = null
     return@withContext try {
-        Log.d("MC", "Starting FFmpegKit conversion: $inputPath")
         val originInput = File(inputPath)
-        if (!originInput.exists()) {
-            return@withContext Result.failure(Exception("Giriş dosyası bulunamadı: $inputPath"))
-        }
-
-        // Extremely safe paths in Internal Storage (filesDir)
-        // Native FFmpeg has best access here
+        if (!originInput.exists()) return@withContext Result.failure(Exception("Giriş dosyası bulunamadı"))
+        
         val workDir = File(context.filesDir, "work").apply { mkdirs() }
         tempInputFile = File(workDir, "temp_in.${originInput.extension}")
         tempOutputFile = File(workDir, "temp_out.$format")
-
-        // Clean previous temps just in case
+        
         tempInputFile.delete()
         tempOutputFile.delete()
-
-        // Copy file to internal work dir
         originInput.copyTo(tempInputFile, overwrite = true)
-        Log.d("MC", "Copied to internal work: ${tempInputFile.absolutePath} (${tempInputFile.length()} bytes)")
-
-        // Command with absolute paths
+        
         val cmd = when (format) {
             "mp3" -> "-i \"${tempInputFile.absolutePath}\" -c:a libmp3lame -b:a $bitrate -y \"${tempOutputFile.absolutePath}\""
             "aac" -> "-i \"${tempInputFile.absolutePath}\" -c:a aac -b:a $bitrate -y \"${tempOutputFile.absolutePath}\""
@@ -124,43 +112,24 @@ suspend fun convertAudioWithResult(context: Context, inputPath: String, outputFi
             else -> "-i \"${tempInputFile.absolutePath}\" -c:a libmp3lame -b:a $bitrate -y \"${tempOutputFile.absolutePath}\""
         }
         
-        Log.d("MC", "FFmpegKit CMD: $cmd")
-        
         val session = FFmpegKit.execute(cmd)
-        val returnCode = session.returnCode
-        val logs = session.logsAsString
-        val failStackTrace = session.failStackTrace
-        
-        Log.d("MC", "FFmpegKit Logs: $logs")
-        if (failStackTrace != null) Log.e("MC", "FFmpegKit StackTrace: $failStackTrace")
-
-        if (ReturnCode.isSuccess(returnCode)) {
+        if (ReturnCode.isSuccess(session.returnCode)) {
             if (tempOutputFile.exists() && tempOutputFile.length() > 0) {
                 val finalFile = File(outputFinalPath)
                 finalFile.parentFile?.mkdirs()
                 tempOutputFile.copyTo(finalFile, overwrite = true)
-                Log.d("MC", "Successfully moved result to: $outputFinalPath")
                 Result.success(true)
-            } else {
-                Result.failure(Exception("Çıktı dosyası boş veya oluşturulamadı"))
-            }
-        } else if (ReturnCode.isCancel(returnCode)) {
-            Log.d("MC", "FFmpegKit Cancelled")
+            } else Result.failure(Exception("Çıktı dosyası oluşturulamadı"))
+        } else if (ReturnCode.isCancel(session.returnCode)) {
             Result.success(false)
         } else {
-            val errorInfo = if (logs.length > 300) logs.takeLast(300) else logs
-            Result.failure(Exception("FFmpeg Hatası:\n$errorInfo"))
+            Result.failure(Exception("FFmpeg Hatası"))
         }
     } catch (e: Exception) {
-        Log.e("MC", "FFmpegKit Thread Exception", e)
         Result.failure(e)
     } finally {
-        try {
-            tempInputFile?.delete()
-            tempOutputFile?.delete()
-        } catch (e: Exception) {
-            Log.e("MC", "Cleanup error", e)
-        }
+        tempInputFile?.delete()
+        tempOutputFile?.delete()
     }
 }
 
@@ -209,14 +178,11 @@ fun MainScreen() {
             val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
-            } else {
-                vibrator.vibrate(200)
-            }
+            } else vibrator.vibrate(200)
             ToneGenerator(AudioManager.STREAM_NOTIFICATION, 80).startTone(ToneGenerator.TONE_PROP_ACK, 200)
-        } catch (e: Exception) {
-            Log.e("MC", "Feedback error", e)
-        }
+        } catch (e: Exception) { }
     }    
+
     val filePickerLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
         uris.forEach { uri ->
             try {
@@ -231,44 +197,31 @@ fun MainScreen() {
                         metadata = metadata
                     )
                 }
-            } catch (e: Exception) {
-                Log.e("MC", "Add file error", e)
-            }
+            } catch (e: Exception) { }
         }
     }
 
-    val directoryPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocumentTree()
-    ) { uri: Uri? ->
+    val directoryPickerLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
         uri?.let {
             outputDirectoryUri = it
-            val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-            context.contentResolver.takePersistableUriPermission(it, takeFlags)
-            val sharedPrefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-            sharedPrefs.edit().putString("output_directory_uri", it.toString()).apply()
+            context.contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE).edit().putString("output_directory_uri", it.toString()).apply()
         }
     }
 
     LaunchedEffect(Unit) {
-        val permissions = mutableListOf<String>()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissions.add(Manifest.permission.POST_NOTIFICATIONS)
-            permissions.add(Manifest.permission.READ_MEDIA_AUDIO)
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.READ_MEDIA_AUDIO)
         } else {
-            permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
-            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
-        permissionLauncher.launch(permissions.toTypedArray())
+        permissionLauncher.launch(permissions)
 
         val sharedPrefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val uriString = sharedPrefs.getString("output_directory_uri", null)
-        uriString?.let {
+        sharedPrefs.getString("output_directory_uri", null)?.let {
             val uri = Uri.parse(it)
             if (context.contentResolver.persistedUriPermissions.any { p -> p.uri == uri && p.isReadPermission }) {
                 outputDirectoryUri = uri
-            } else {
-                sharedPrefs.edit().remove("output_directory_uri").apply()
             }
         }
     }
@@ -276,85 +229,64 @@ fun MainScreen() {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { 
-                    Text(
-                        stringResource(R.string.app_name), 
-                        fontWeight = FontWeight.ExtraBold,
-                        style = MaterialTheme.typography.headlineMedium
-                    ) 
-                },
+                title = { Text(stringResource(R.string.app_name), fontWeight = FontWeight.ExtraBold) },
                 actions = {
                     if (selectedFiles.isNotEmpty() && !isConverting) {
-                        IconButton(onClick = { selectedFiles = emptyList() }) {
+                        IconButton(onClick = { selectedFiles = emptyList(); selectedIds = emptySet() }) {
                             Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.error)
                         }
                     }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent
-                )
+                }
             )
         },
         floatingActionButton = {
             if (!isConverting) {
-                FloatingActionButton(
-                    onClick = { filePickerLauncher.launch("audio/*") },
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    shape = RoundedCornerShape(16.dp)
-                ) {
+                FloatingActionButton(onClick = { filePickerLauncher.launch("audio/*") }, shape = RoundedCornerShape(16.dp)) {
                     Icon(Icons.Default.Add, null, modifier = Modifier.size(32.dp))
                 }
             }
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize().background(
-            Brush.verticalGradient(
-                listOf(MaterialTheme.colorScheme.surface, MaterialTheme.colorScheme.background)
-            )
+            Brush.verticalGradient(listOf(MaterialTheme.colorScheme.surface, MaterialTheme.colorScheme.background))
         )) {
             Card(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)),
+                shape = RoundedCornerShape(12.dp)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(stringResource(R.string.output_directory), style = MaterialTheme.typography.labelSmall, color = Color.Gray)
-                    val path = outputDirectoryUri?.let { DocumentFile.fromTreeUri(context, it)?.uri?.path } ?: internalDir.absolutePath
-                    Text(path, style = MaterialTheme.typography.bodySmall, maxLines = 1)
-                    Button(onClick = { directoryPickerLauncher.launch(null) }) {
-                        Text(stringResource(R.string.select_directory))
-                    }
-                    
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
-                    
-                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(stringResource(R.string.format), style = MaterialTheme.typography.labelSmall, color = Color.Gray)
-                            Box {
-                                OutlinedButton(onClick = { formatExpanded = true }, modifier = Modifier.fillMaxWidth(), enabled = !isConverting) {
-                                    Text(targetFormat.uppercase())
-                                    Icon(Icons.Default.ArrowDropDown, null)
-                                }
-                                DropdownMenu(expanded = formatExpanded, onDismissRequest = { formatExpanded = false }) {
-                                    listOf("mp3", "aac", "wav", "flac").forEach { fmt ->
-                                        DropdownMenuItem(text = { Text(fmt.uppercase()) }, onClick = { targetFormat = fmt; formatExpanded = false })
-                                    }
+                            Text(stringResource(R.string.output_directory), style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+                            val path = outputDirectoryUri?.let { DocumentFile.fromTreeUri(context, it)?.uri?.path } ?: internalDir.absolutePath
+                            Text(path, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        }
+                        IconButton(onClick = { directoryPickerLauncher.launch(null) }) {
+                            Icon(Icons.Default.FolderOpen, null, tint = MaterialTheme.colorScheme.primary)
+                        }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
+                        Box(modifier = Modifier.weight(1f)) {
+                            OutlinedButton(onClick = { formatExpanded = true }, modifier = Modifier.fillMaxWidth().height(40.dp)) {
+                                Text(targetFormat.uppercase(), style = MaterialTheme.typography.labelMedium)
+                                Icon(Icons.Default.ArrowDropDown, null)
+                            }
+                            DropdownMenu(expanded = formatExpanded, onDismissRequest = { formatExpanded = false }) {
+                                listOf("mp3", "aac", "wav", "flac").forEach { fmt ->
+                                    DropdownMenuItem(text = { Text(fmt.uppercase()) }, onClick = { targetFormat = fmt; formatExpanded = false })
                                 }
                             }
                         }
-                        
                         if (targetFormat == "mp3" || targetFormat == "aac") {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(stringResource(R.string.quality), style = MaterialTheme.typography.labelSmall, color = Color.Gray)
-                                Box {
-                                    OutlinedButton(onClick = { qualityExpanded = true }, modifier = Modifier.fillMaxWidth(), enabled = !isConverting) {
-                                        Text(targetQuality)
-                                        Icon(Icons.Default.ArrowDropDown, null)
-                                    }
-                                    DropdownMenu(expanded = qualityExpanded, onDismissRequest = { qualityExpanded = false }) {
-                                        listOf("128k", "192k", "256k", "320k").forEach { q ->
-                                            DropdownMenuItem(text = { Text(q) }, onClick = { targetQuality = q; qualityExpanded = false })
-                                        }
+                            Box(modifier = Modifier.weight(1f)) {
+                                OutlinedButton(onClick = { qualityExpanded = true }, modifier = Modifier.fillMaxWidth().height(40.dp)) {
+                                    Text(targetQuality, style = MaterialTheme.typography.labelMedium)
+                                    Icon(Icons.Default.ArrowDropDown, null)
+                                }
+                                DropdownMenu(expanded = qualityExpanded, onDismissRequest = { qualityExpanded = false }) {
+                                    listOf("128k", "192k", "256k", "320k").forEach { q ->
+                                        DropdownMenuItem(text = { Text(q) }, onClick = { targetQuality = q; qualityExpanded = false })
                                     }
                                 }
                             }
@@ -365,317 +297,156 @@ fun MainScreen() {
 
             if (selectedFiles.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(32.dp)) {
-                        Icon(Icons.Default.MusicNote, null, modifier = Modifier.size(80.dp), tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f))
-                        Spacer(Modifier.height(16.dp))
-                        Text(stringResource(R.string.add_music_files), color = Color.Gray, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-                    }
+                    Text(stringResource(R.string.add_music_files), color = Color.Gray)
                 }
             } else {
-                // Bulk Selection Controls
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                     TextButton(onClick = {
                         if (selectedIds.size == selectedFiles.size) selectedIds = emptySet()
                         else selectedIds = selectedFiles.map { it.id }.toSet()
                     }) {
-                        Icon(if (selectedIds.size == selectedFiles.size) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank, null)
+                        Icon(if (selectedIds.size == selectedFiles.size) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank, null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(8.dp))
-                        Text(if (selectedIds.size == selectedFiles.size) stringResource(R.string.deselect_all) else stringResource(R.string.select_all))
+                        Text(if (selectedIds.size == selectedFiles.size) stringResource(R.string.deselect_all) else stringResource(R.string.select_all), style = MaterialTheme.typography.labelMedium)
                     }
-                    
                     if (selectedIds.isNotEmpty() && !isConverting) {
-                        Button(
-                            onClick = { showBatchEditDialog = true },
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-                            shape = RoundedCornerShape(8.dp)
-                        ) {
-                            Icon(Icons.Default.AutoFixHigh, null, modifier = Modifier.size(18.dp))
-                            Spacer(Modifier.width(8.dp))
-                            Text(stringResource(R.string.batch_edit), style = MaterialTheme.typography.labelMedium)
+                        Button(onClick = { showBatchEditDialog = true }, shape = RoundedCornerShape(8.dp), modifier = Modifier.height(32.dp)) {
+                            Text(stringResource(R.string.batch_edit), style = MaterialTheme.typography.labelSmall)
                         }
                     }
                 }
 
                 if (isConverting) {
-                    Card(
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text("${stringResource(R.string.converting)}: $currentFile", style = MaterialTheme.typography.bodyMedium, maxLines = 1)
-                            Spacer(Modifier.height(8.dp))
-                            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                            Spacer(Modifier.height(4.dp))
-                            Text("$completedCount / ${selectedFiles.size}", style = MaterialTheme.typography.bodySmall)
+                    Card(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
+                        Column(modifier = Modifier.padding(12.dp)) {
+                            Text("${stringResource(R.string.converting)}: $currentFile", maxLines = 1, style = MaterialTheme.typography.bodySmall)
+                            LinearProgressIndicator(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp))
+                            Text("$completedCount / ${selectedFiles.size}", style = MaterialTheme.typography.labelSmall)
                         }
                     }
                 }
-                
+
                 LazyColumn(modifier = Modifier.weight(1f)) {
+                    item { MusicTableHeader() }
                     items(selectedFiles) { music ->
-                        MusicItemSimple(
+                        MusicRow(
                             music = music,
                             isSelected = selectedIds.contains(music.id),
                             onSelect = { 
                                 if (selectedIds.contains(music.id)) selectedIds = selectedIds - music.id
                                 else selectedIds = selectedIds + music.id
                             },
-                            onEdit = { if (!isConverting) editingFile = it },
-                            onDelete = { if (!isConverting) selectedFiles = selectedFiles.filter { f -> f.id != music.id } },
-                            onShare = { 
-                                val sanitizedName = sanitizeFileName(if (!it.metadata.title.isNullOrBlank() && !it.metadata.artist.isNullOrBlank()) "${it.metadata.artist} - ${it.metadata.title}" else it.name.substringBeforeLast(".")) + "." + targetFormat
+                            onEdit = { m -> if (!isConverting) editingFile = m },
+                            onDelete = { m -> if (!isConverting) selectedFiles = selectedFiles.filter { it.id != m.id } },
+                            onShare = { m ->
+                                val sanitizedName = sanitizeFileName(if (!m.metadata.title.isNullOrBlank() && !m.metadata.artist.isNullOrBlank()) "${m.metadata.artist} - ${m.metadata.title}" else m.name.substringBeforeLast(".")) + "." + targetFormat
                                 val file = File(internalDir, sanitizedName)
                                 if (file.exists()) shareFile(file)
-                                else Toast.makeText(context, "Önce dönüştürmeniz gerekiyor", Toast.LENGTH_SHORT).show()
                             }
                         )
                     }
                 }
-                
-                if (isConverting) {
-                     Button(
-                        onClick = {
+
+                Button(
+                    onClick = {
+                        if (isConverting) {
                             conversionJob?.cancel()
                             isConverting = false
                             FFmpegKit.cancel()
-                            notificationHelper.showCompletionNotification("İptal Edildi", false, "İşlem iptal edildi")
-                        },
-                        modifier = Modifier.fillMaxWidth().padding(16.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE53935)),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Icon(Icons.Default.Close, null)
-                        Spacer(Modifier.width(8.dp))
-                        Text(stringResource(R.string.cancel_conversion), fontWeight = FontWeight.Bold)
-                    }
-                } else {
-                    Button(
-                        onClick = {
+                        } else {
                             isConverting = true
                             completedCount = 0
-                            
                             conversionJob = scope.launch {
                                 for (music in selectedFiles) {
                                     if (!isConverting) break
-                                    try {
-                                        withContext(Dispatchers.Main) {
-                                            currentFile = music.metadata.title ?: music.name
-                                            notificationHelper.showProgressNotification(currentFile, 0)
-                                        }
-                                        
-                                        val meta = music.metadata
-                                        val fileNameBase = if (!meta.title.isNullOrBlank() && !meta.artist.isNullOrBlank()) {
-                                            val track = if (!meta.trackNumber.isNullOrBlank()) "${meta.trackNumber}." else ""
-                                            "$track${meta.artist} - ${meta.title}"
-                                        } else {
-                                            music.name.substringBeforeLast(".")
-                                        }
-                                        val sanitizedName = sanitizeFileName(fileNameBase) + "." + targetFormat
-                                        val outputFile = File(internalDir, sanitizedName)
-                                        
-                                        Log.d("MC", "Calling convertAudioWithResult for ${music.name}")
-                                        val result = convertAudioWithResult(context, music.path, outputFile.absolutePath, targetFormat, targetQuality)
-                                        
-                                        if (!isConverting) {
-                                            outputFile.delete()
-                                            break
-                                        }
-
-                                        withContext(Dispatchers.Main) {
-                                            result.onSuccess { success ->
-                                                if (success) {
-                                                    completedCount++
-                                                    notificationHelper.showCompletionNotification(sanitizedName, true)
-                                                    
-                                                    try {
-                                                        Log.d("MC", "Conversion success, copying to destination...")
-                                                        val outputDir = outputDirectoryUri?.let { DocumentFile.fromTreeUri(context, it) }
-                                                        if (outputDir != null) {
-                                                            val destFile = outputDir.createFile("audio/$targetFormat", sanitizedName)
-                                                            destFile?.let {
-                                                                context.contentResolver.openOutputStream(it.uri)?.use { outputStream ->
-                                                                    outputFile.inputStream().use { inputStream ->
-                                                                        inputStream.copyTo(outputStream)
-                                                                    }
-                                                                }
-                                                                Log.d("MC", "Copied to Safari/Document Tree")
-                                                            }
-                                                        } else {
-                                                             val externalDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "Converter")
-                                                             if (!externalDir.exists()) externalDir.mkdirs()
-                                                             val dest = File(externalDir, sanitizedName)
-                                                             outputFile.copyTo(dest, true)
-                                                             android.media.MediaScannerConnection.scanFile(context, arrayOf(dest.absolutePath), null, null)
-                                                             Log.d("MC", "Copied to Music/Converter via MediaScanner")
-                                                        }
-                                                    } catch (e: Exception) {
-                                                        Log.e("MC", "File copy error", e)
-                                                        Toast.makeText(context, "Kopyalama hatası: ${e.message}", Toast.LENGTH_SHORT).show()
+                                    withContext(Dispatchers.Main) { 
+                                        currentFile = music.metadata.title ?: music.name
+                                        notificationHelper.showProgressNotification(currentFile, 0)
+                                    }
+                                    val meta = music.metadata
+                                    val nameBase = if (!meta.title.isNullOrBlank() && !meta.artist.isNullOrBlank()) "${meta.artist} - ${meta.title}" else music.name.substringBeforeLast(".")
+                                    val sanitized = sanitizeFileName(nameBase) + "." + targetFormat
+                                    val outputFile = File(internalDir, sanitized)
+                                    val result = convertAudioWithResult(context, music.path, outputFile.absolutePath, targetFormat, targetQuality)
+                                    withContext(Dispatchers.Main) {
+                                        result.onSuccess { success ->
+                                            if (success) {
+                                                completedCount++
+                                                val outputDir = outputDirectoryUri?.let { DocumentFile.fromTreeUri(context, it) }
+                                                if (outputDir != null) {
+                                                    outputDir.createFile("audio/$targetFormat", sanitized)?.let { df ->
+                                                        context.contentResolver.openOutputStream(df.uri)?.use { os -> outputFile.inputStream().use { it.copyTo(os) } }
                                                     }
-                                                } else {
-                                                    Log.d("MC", "Conversion cancelled by user or library")
                                                 }
-                                            }.onFailure { e ->
-                                                Log.e("MC", "Conversion failed for ${music.name}", e)
-                                                notificationHelper.showCompletionNotification(music.name, false, e.message)
-                                                Toast.makeText(context, "Hata (${music.name}): ${e.message}", Toast.LENGTH_LONG).show()
                                             }
                                         }
-                                        delay(500)
-                                    } catch (e: Exception) {
-                                        Log.e("MC", "Exception in conversion loop", e)
-                                        withContext(Dispatchers.Main) {
-                                            notificationHelper.showCompletionNotification(music.name, false, e.message)
-                                            Toast.makeText(context, "Beklenmedik hata: ${e.message}", Toast.LENGTH_SHORT).show()
-                                        }
                                     }
                                 }
-                                
-                                    isConverting = false
-                                    if (completedCount == selectedFiles.size) {
-                                        playSuccessFeedback()
-                                        showConfetti = true
-                                        scope.launch {
-                                            delay(4000)
-                                            showConfetti = false
-                                        }
-                                        Toast.makeText(context, stringResource(R.string.done_all), Toast.LENGTH_LONG).show()
-                                    }
+                                isConverting = false
+                                if (completedCount == selectedFiles.size) {
+                                    playSuccessFeedback(); showConfetti = true
+                                    launch { delay(4000); showConfetti = false }
                                 }
                             }
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                            .height(56.dp),
-                        enabled = !isConverting && selectedFiles.isNotEmpty(),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = Color.White
-                        )
-                    ) {
-                        Icon(Icons.Default.PlayArrow, null)
-                        Spacer(Modifier.width(8.dp))
-                        Text(
-                            "${selectedFiles.size} ${stringResource(R.string.convert_files_to)} ${targetFormat.uppercase()}",
-                            fontWeight = FontWeight.ExtraBold,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth().padding(12.dp).height(50.dp),
+                    enabled = selectedFiles.isNotEmpty(),
+                    colors = ButtonDefaults.buttonColors(containerColor = if (isConverting) Color.Red else MaterialTheme.colorScheme.primary)
+                ) {
+                    Text(if (isConverting) stringResource(R.string.cancel_conversion) else "${selectedFiles.size} ${stringResource(R.string.convert)}")
                 }
             }
         }
     }
 
     if (editingFile != null) {
-        EditMetadataDialog(editingFile!!, { editingFile = null }) { updatedMetadata ->
-            selectedFiles = selectedFiles.map { if (it.id == editingFile!!.id) it.copy(metadata = updatedMetadata) else it }
+        EditMetadataDialog(editingFile!!, { editingFile = null }) { meta ->
+            selectedFiles = selectedFiles.map { if (it.id == editingFile!!.id) it.copy(metadata = meta) else it }
             editingFile = null
         }
     }
 
     if (showBatchEditDialog) {
-        BatchEditMetadataDialog(
-            onDismiss = { showBatchEditDialog = false },
-            onSave = { artist, track ->
-                selectedFiles = selectedFiles.map { music ->
-                    if (selectedIds.contains(music.id)) {
-                        music.copy(metadata = music.metadata.copy(
-                            artist = artist.ifBlank { music.metadata.artist },
-                            trackNumber = track.ifBlank { music.metadata.trackNumber }
-                        ))
-                    } else music
-                }
-                showBatchEditDialog = false
-                selectedIds = emptySet()
-            }
-        )
+        BatchEditMetadataDialog({ showBatchEditDialog = false }) { artist, track, album, year ->
+            selectedFiles = selectedFiles.map { if (selectedIds.contains(it.id)) it.copy(metadata = it.metadata.copy(artist = if (artist.isBlank()) it.metadata.artist else artist, trackNumber = if (track.isBlank()) it.metadata.trackNumber else track, album = if (album.isBlank()) it.metadata.album else album, year = if (year.isBlank()) it.metadata.year else year)) else it }
+            showBatchEditDialog = false; selectedIds = emptySet()
+        }
     }
 
-    if (showConfetti) {
-        ConfettiOverlay()
+    if (showConfetti) ConfettiOverlay()
+}
+
+@Composable
+fun MusicTableHeader() {
+    Row(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)).padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Spacer(modifier = Modifier.width(36.dp))
+        Text("#", modifier = Modifier.width(30.dp), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+        Text("ŞARKI / SANATÇI", modifier = Modifier.weight(1f), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
     }
 }
 
 @Composable
-fun MusicItemSimple(music: MusicFile, isSelected: Boolean, onSelect: () -> Unit, onEdit: (MusicFile) -> Unit, onDelete: (MusicFile) -> Unit, onShare: (MusicFile) -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 6.dp)
-            .clickable { onSelect() },
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) 
-                            else MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = if (isSelected) 4.dp else 2.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(), 
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Checkbox(checked = isSelected, onCheckedChange = { onSelect() })
-            
-            Box(
-                modifier = Modifier
-                    .size(50.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-                contentAlignment = Alignment.Center
-            ) {
-                if (music.metadata.coverUri != null) {
-                    AsyncImage(
-                        model = music.metadata.coverUri,
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-                } else {
-                    Icon(
-                        Icons.Default.MusicNote, 
-                        null, 
-                        tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
-                        modifier = Modifier.size(28.dp)
-                    )
+fun MusicRow(music: MusicFile, isSelected: Boolean, onSelect: () -> Unit, onEdit: (MusicFile) -> Unit, onDelete: (MusicFile) -> Unit, onShare: (MusicFile) -> Unit) {
+    Surface(modifier = Modifier.fillMaxWidth().clickable { onSelect() }, color = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f) else Color.Transparent) {
+        Row(modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(checked = isSelected, onCheckedChange = { onSelect() }, modifier = Modifier.size(40.dp))
+            Text(music.metadata.trackNumber ?: "--", modifier = Modifier.width(30.dp), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+            Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier.size(32.dp).clip(RoundedCornerShape(6.dp)).background(MaterialTheme.colorScheme.surfaceVariant), contentAlignment = Alignment.Center) {
+                    if (music.metadata.coverUri != null) AsyncImage(model = music.metadata.coverUri, contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                    else Icon(Icons.Default.MusicNote, null, modifier = Modifier.size(16.dp))
+                }
+                Spacer(Modifier.width(12.dp))
+                Column {
+                    Text(music.metadata.title ?: music.name, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(music.metadata.artist ?: "-", style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
-            
-            Spacer(Modifier.width(12.dp))
-            
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    music.metadata.title ?: music.name, 
-                    style = MaterialTheme.typography.bodyLarge, 
-                    fontWeight = FontWeight.Bold, 
-                    maxLines = 1,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    music.metadata.artist ?: stringResource(R.string.unknown), 
-                    style = MaterialTheme.typography.bodySmall, 
-                    color = MaterialTheme.colorScheme.onSurfaceVariant, 
-                    maxLines = 1
-                )
-            }
-            
             Row {
-                IconButton(onClick = { onShare(music) }) { 
-                    Icon(Icons.Default.Share, null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.secondary) 
-                }
-                IconButton(onClick = { onEdit(music) }) { 
-                    Icon(Icons.Default.Edit, null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.primary) 
-                }
-                IconButton(onClick = { onDelete(music) }) { 
-                    Icon(Icons.Default.Close, null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.error) 
-                }
+                IconButton(onClick = { onShare(music) }, modifier = Modifier.size(32.dp)) { Icon(Icons.Default.Share, null, modifier = Modifier.size(16.dp)) }
+                IconButton(onClick = { onEdit(music) }, modifier = Modifier.size(32.dp)) { Icon(Icons.Default.Edit, null, modifier = Modifier.size(16.dp)) }
+                IconButton(onClick = { onDelete(music) }, modifier = Modifier.size(32.dp)) { Icon(Icons.Default.Close, null, modifier = Modifier.size(16.dp)) }
             }
         }
     }
@@ -683,49 +454,20 @@ fun MusicItemSimple(music: MusicFile, isSelected: Boolean, onSelect: () -> Unit,
 
 fun getFileFromUri(context: Context, uri: Uri): File? {
     return try {
-        var name = "audio"
-        var ext = ""
-        
+        var name = "audio"; var ext = ""
         context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
             val idx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
             if (idx >= 0 && cursor.moveToFirst()) {
                 val displayName = cursor.getString(idx)
                 if (displayName != null) {
-                    name = displayName.substringBeforeLast(".")
-                    val extension = displayName.substringAfterLast(".", "")
-                    if (extension.isNotEmpty()) ext = ".$extension"
+                    name = displayName.substringBeforeLast("."); ext = "." + displayName.substringAfterLast(".", "")
                 }
             }
         }
-        
-        if (ext.isEmpty()) {
-            val mime = context.contentResolver.getType(uri)
-            if (mime != null) {
-                when {
-                    mime.contains("audio/mpeg") -> ext = ".mp3"
-                    mime.contains("audio/mp4") -> ext = ".m4a"
-                    mime.contains("audio/x-m4a") -> ext = ".m4a"
-                    mime.contains("audio/wav") -> ext = ".wav"
-                    mime.contains("audio/x-wav") -> ext = ".wav"
-                    mime.contains("audio/flac") -> ext = ".flac"
-                    mime.contains("audio/aac") -> ext = ".aac"
-                }
-            }
-        }
-        
-        if (ext.isEmpty()) ext = ".mp3"
-        
-        val sanitizedName = sanitizeFileName(name) + ext
-        val file = File(context.cacheDir, sanitizedName)
-        
-        context.contentResolver.openInputStream(uri)?.use { input ->
-            FileOutputStream(file).use { output -> input.copyTo(output) }
-        }
+        val file = File(context.cacheDir, sanitizeFileName(name) + ext)
+        context.contentResolver.openInputStream(uri)?.use { input -> FileOutputStream(file).use { output -> input.copyTo(output) } }
         file
-    } catch (e: Exception) { 
-        Log.e("MC", "File error", e)
-        null 
-    }
+    } catch (e: Exception) { null }
 }
 
 @Composable
@@ -733,9 +475,10 @@ fun EditMetadataDialog(music: MusicFile, onDismiss: () -> Unit, onSave: (MusicMe
     var title by remember { mutableStateOf(music.metadata.title ?: "") }
     var artist by remember { mutableStateOf(music.metadata.artist ?: "") }
     var track by remember { mutableStateOf(music.metadata.trackNumber ?: "") }
+    var album by remember { mutableStateOf(music.metadata.album ?: "") }
+    var year by remember { mutableStateOf(music.metadata.year ?: "") }
     var cover by remember { mutableStateOf(music.metadata.coverUri) }
     val imagePicker = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { cover = it?.toString() }
-
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.edit_tags)) },
@@ -745,32 +488,36 @@ fun EditMetadataDialog(music: MusicFile, onDismiss: () -> Unit, onSave: (MusicMe
                     if (cover != null) AsyncImage(model = cover, null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                     else Icon(Icons.Default.Add, null, tint = Color.White)
                 }
-                OutlinedTextField(value = title, onValueChange = { title = it }, label = { Text(stringResource(R.string.title)) }, modifier = Modifier.fillMaxWidth())
-                OutlinedTextField(value = artist, onValueChange = { artist = it }, label = { Text(stringResource(R.string.artist)) }, modifier = Modifier.fillMaxWidth())
-                OutlinedTextField(value = track, onValueChange = { track = it }, label = { Text(stringResource(R.string.track_number)) }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = title, onValueChange = { title = it }, label = { Text(stringResource(R.string.title)) })
+                OutlinedTextField(value = artist, onValueChange = { artist = it }, label = { Text(stringResource(R.string.artist)) })
+                OutlinedTextField(value = album, onValueChange = { album = it }, label = { Text(stringResource(R.string.album)) })
+                OutlinedTextField(value = track, onValueChange = { track = it }, label = { Text(stringResource(R.string.track_number)) })
+                OutlinedTextField(value = year, onValueChange = { year = it }, label = { Text(stringResource(R.string.year)) })
             }
         },
-        confirmButton = { TextButton(onClick = { onSave(music.metadata.copy(title = title, artist = artist, trackNumber = track, coverUri = cover)) }) { Text(stringResource(R.string.save)) } },
+        confirmButton = { TextButton(onClick = { onSave(music.metadata.copy(title = title, artist = artist, album = album, trackNumber = track, year = year, coverUri = cover)) }) { Text(stringResource(R.string.save)) } },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel_button)) } }
     )
 }
 
 @Composable
-fun BatchEditMetadataDialog(onDismiss: () -> Unit, onSave: (String, String) -> Unit) {
+fun BatchEditMetadataDialog(onDismiss: () -> Unit, onSave: (String, String, String, String) -> Unit) {
     var artist by remember { mutableStateOf("") }
     var track by remember { mutableStateOf("") }
-
+    var album by remember { mutableStateOf("") }
+    var year by remember { mutableStateOf("") }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.batch_edit)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Seçili tüm dosyalara uygulanacak bilgileri girin. Boş bırakılan alanlar değişmeyecektir.", style = MaterialTheme.typography.bodySmall)
-                OutlinedTextField(value = artist, onValueChange = { artist = it }, label = { Text(stringResource(R.string.artist)) }, modifier = Modifier.fillMaxWidth())
-                OutlinedTextField(value = track, onValueChange = { track = it }, label = { Text(stringResource(R.string.track_number)) }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = artist, onValueChange = { artist = it }, label = { Text(stringResource(R.string.artist)) })
+                OutlinedTextField(value = album, onValueChange = { album = it }, label = { Text(stringResource(R.string.album)) })
+                OutlinedTextField(value = track, onValueChange = { track = it }, label = { Text(stringResource(R.string.track_number)) })
+                OutlinedTextField(value = year, onValueChange = { year = it }, label = { Text(stringResource(R.string.year)) })
             }
         },
-        confirmButton = { TextButton(onClick = { onSave(artist, track) }) { Text(stringResource(R.string.save)) } },
+        confirmButton = { TextButton(onClick = { onSave(artist, track, album, year) }) { Text(stringResource(R.string.save)) } },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel_button)) } }
     )
 }
@@ -778,42 +525,19 @@ fun BatchEditMetadataDialog(onDismiss: () -> Unit, onSave: (String, String) -> U
 @Composable
 fun ConfettiOverlay() {
     val particles = remember { List(50) { ConfettiParticle() } }
-    val infiniteTransition = rememberInfiniteTransition()
-    val progress by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        )
-    )
-
+    val progress by rememberInfiniteTransition().animateFloat(0f, 1f, infiniteRepeatable(tween(2000, easing = LinearEasing)))
     Canvas(modifier = Modifier.fillMaxSize()) {
         particles.forEach { p ->
-            val y = (p.y + progress * size.height * p.speed) % size.height
-            val x = p.x * size.width + Math.sin(progress.toDouble() * 5 + p.offset).toFloat() * 50f
-            
+            val y = (p.y + progress * size.height * p.speed) % size.height; val x = p.x * size.width + Math.sin(progress.toDouble() * 5 + p.offset).toFloat() * 50f
             rotate(progress * 360f * p.rotationSpeed, pivot = androidx.compose.ui.geometry.Offset(x, y)) {
-                drawRect(
-                    color = p.color,
-                    topLeft = androidx.compose.ui.geometry.Offset(x, y),
-                    size = androidx.compose.ui.geometry.Size(20f, 20f)
-                )
+                drawRect(color = p.color, topLeft = androidx.compose.ui.geometry.Offset(x, y), size = androidx.compose.ui.geometry.Size(20f, 20f))
             }
         }
     }
 }
 
 class ConfettiParticle {
-    val x = Random.nextFloat()
-    val y = Random.nextFloat() * -1000f
-    val speed = 0.5f + Random.nextFloat() * 0.5f
-    val rotationSpeed = if (Random.nextBoolean()) 1f else -1f
-    val offset = Random.nextFloat() * 10f
-    val color = Color(
-        red = Random.nextInt(150, 255),
-        green = Random.nextInt(150, 255),
-        blue = Random.nextInt(150, 255),
-        alpha = 200
-    )
+    val x = Random.nextFloat(); val y = Random.nextFloat() * -1000f; val speed = 0.5f + Random.nextFloat() * 0.5f
+    val rotationSpeed = if (Random.nextBoolean()) 1f else -1f; val offset = Random.nextFloat() * 10f
+    val color = Color(Random.nextInt(150, 255), Random.nextInt(150, 255), Random.nextInt(150, 255), 200)
 }

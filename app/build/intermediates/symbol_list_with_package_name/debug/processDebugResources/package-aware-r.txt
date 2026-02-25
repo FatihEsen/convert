@@ -207,6 +207,7 @@ raw license_zimg
 raw source
 string add_file
 string add_music_files
+string album
 string androidx_startup
 string app_name
 string artist
@@ -315,6 +316,7 @@ string tooltip_label
 string track
 string track_number
 string unknown
+string year
 style DialogWindowTheme
 style FloatingDialogTheme
 style FloatingDialogWindowTheme

@@ -2,6 +2,7 @@
 <resources>
     <string name="add_file">Dosya Ekle</string>
     <string name="add_music_files">Henüz müzik eklemedin, hemen ekle!</string>
+    <string name="album">Albüm</string>
     <string name="app_name">Müzik Dönüştürücü</string>
     <string name="artist">Sanatçı</string>
     <string name="batch_edit">Seçilenleri Düzenle</string>
@@ -26,5 +27,6 @@
     <string name="track">Parça No</string>
     <string name="track_number">Sıra No</string>
     <string name="unknown">Bilinmeyen</string>
+    <string name="year">Yıl</string>
     <style name="Theme.MusicConverter" parent="android:Theme.Material.NoActionBar"/>
 </resources>

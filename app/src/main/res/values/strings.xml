@@ -25,4 +25,6 @@
     <string name="done_all">Harika! Tüm dosyalar hazır. 🎉</string>
     <string name="select_all">Tümünü Seç</string>
     <string name="deselect_all">Seçimi Kaldır</string>
+    <string name="album">Albüm</string>
+    <string name="year">Yıl</string>
 </resources>

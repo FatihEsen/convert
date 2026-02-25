@@ -99,6 +99,7 @@
     <integer name="status_bar_notification_info_maxnum">999</integer>
     <string name="add_file">Dosya Ekle</string>
     <string name="add_music_files">Henüz müzik eklemedin, hemen ekle!</string>
+    <string name="album">Albüm</string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
     <string name="app_name">Müzik Dönüştürücü</string>
     <string name="artist">Sanatçı</string>
@@ -211,6 +212,7 @@
     <string name="track">Parça No</string>
     <string name="track_number">Sıra No</string>
     <string name="unknown">Bilinmeyen</string>
+    <string name="year">Yıl</string>
     <style name="DialogWindowTheme">
         <item name="android:windowClipToOutline">false</item>
     </style>

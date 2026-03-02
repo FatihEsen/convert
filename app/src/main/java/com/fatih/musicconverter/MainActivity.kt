@@ -22,6 +22,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -66,6 +71,16 @@ import android.media.AudioManager
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+            try {
+                cacheDir.listFiles()?.forEach { file ->
+                    val name = file.name.lowercase()
+                    if (name.endsWith(".mp3") || name.endsWith(".wav") || name.endsWith(".aac") || name.endsWith(".flac") || name.endsWith(".m4a")) {
+                        file.delete()
+                    }
+                }
+            } catch (e: Exception) {}
+        }
         setContent {
             MusicConverterTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -146,6 +161,7 @@ fun MainScreen() {
     var targetQuality by remember { mutableStateOf("192k") }
     var formatExpanded by remember { mutableStateOf(false) }
     var qualityExpanded by remember { mutableStateOf(false) }
+    var isGridView by remember { mutableStateOf(false) }
     
     val internalDir = remember { File(context.filesDir, "Converted").apply { mkdirs() } }
     var outputDirectoryUri by remember { mutableStateOf<Uri?>(null) }
@@ -183,21 +199,85 @@ fun MainScreen() {
         } catch (e: Exception) { }
     }    
 
+    var isLoadingFiles by remember { mutableStateOf(false) }
+
     val filePickerLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
-        uris.forEach { uri ->
-            try {
-                getFileFromUri(context, uri)?.let { file ->
-                    val metadata = MetadataParser.parseMetadata(context, file.absolutePath)
-                    selectedFiles = selectedFiles + MusicFile(
-                        id = UUID.randomUUID().toString(),
-                        name = file.name,
-                        path = file.absolutePath,
-                        size = file.length(),
-                        format = file.extension,
-                        metadata = metadata
-                    )
+        if (uris.isNotEmpty()) {
+            isLoadingFiles = true
+            scope.launch(Dispatchers.IO) {
+                val newFiles = mutableListOf<MusicFile>()
+                uris.forEach { uri ->
+                    try {
+                        getFileFromUri(context, uri)?.let { file ->
+                            val metadata = MetadataParser.parseMetadata(context, file.absolutePath)
+                            newFiles.add(
+                                MusicFile(
+                                    id = UUID.randomUUID().toString(),
+                                    name = file.name,
+                                    path = file.absolutePath,
+                                    size = file.length(),
+                                    format = file.extension,
+                                    metadata = metadata
+                                )
+                            )
+                        }
+                    } catch (e: Exception) { }
                 }
-            } catch (e: Exception) { }
+                withContext(Dispatchers.Main) {
+                    selectedFiles = selectedFiles + newFiles
+                    isLoadingFiles = false
+                }
+            }
+        }
+    }
+
+    val folderPickerLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+        uri?.let { treeUri ->
+            isLoadingFiles = true
+            scope.launch(Dispatchers.IO) {
+                val documentUris = mutableListOf<Uri>()
+                val root = DocumentFile.fromTreeUri(context, treeUri)
+                fun traverse(dir: DocumentFile?) {
+                    dir?.listFiles()?.forEach { file ->
+                        if (!isLoadingFiles) return@forEach
+                        if (file.isDirectory) {
+                            traverse(file)
+                        } else {
+                            val type = file.type
+                            val name = file.name?.lowercase() ?: ""
+                            if (type?.startsWith("audio/") == true || name.endsWith(".mp3") || name.endsWith(".flac") || name.endsWith(".wav") || name.endsWith(".aac") || name.endsWith(".m4a")) {
+                                documentUris.add(file.uri)
+                            }
+                        }
+                    }
+                }
+                traverse(root)
+
+                val newFiles = mutableListOf<MusicFile>()
+                documentUris.forEach { u ->
+                    if (!isLoadingFiles) return@forEach
+                    try {
+                        getFileFromUri(context, u)?.let { file ->
+                            val metadata = MetadataParser.parseMetadata(context, file.absolutePath)
+                            newFiles.add(
+                                MusicFile(
+                                    id = UUID.randomUUID().toString(),
+                                    name = file.name,
+                                    path = file.absolutePath,
+                                    size = file.length(),
+                                    format = file.extension,
+                                    metadata = metadata
+                                )
+                            )
+                        }
+                    } catch (e: Exception) { }
+                }
+
+                withContext(Dispatchers.Main) {
+                    selectedFiles = selectedFiles + newFiles
+                    isLoadingFiles = false
+                }
+            }
         }
     }
 
@@ -231,6 +311,9 @@ fun MainScreen() {
             CenterAlignedTopAppBar(
                 title = { Text(stringResource(R.string.app_name), fontWeight = FontWeight.ExtraBold) },
                 actions = {
+                    IconButton(onClick = { isGridView = !isGridView }) {
+                        Icon(if (isGridView) Icons.Default.ViewList else Icons.Default.GridView, null)
+                    }
                     if (selectedFiles.isNotEmpty() && !isConverting) {
                         IconButton(onClick = { selectedFiles = emptyList(); selectedIds = emptySet() }) {
                             Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.error)
@@ -240,9 +323,26 @@ fun MainScreen() {
             )
         },
         floatingActionButton = {
-            if (!isConverting) {
-                FloatingActionButton(onClick = { filePickerLauncher.launch("audio/*") }, shape = RoundedCornerShape(16.dp)) {
-                    Icon(Icons.Default.Add, null, modifier = Modifier.size(32.dp))
+            if (!isConverting && !isLoadingFiles) {
+                var fabExpanded by remember { mutableStateOf(false) }
+                Column(horizontalAlignment = Alignment.End) {
+                    if (fabExpanded) {
+                        ExtendedFloatingActionButton(
+                            onClick = { fabExpanded=false; folderPickerLauncher.launch(null) },
+                            icon = { Icon(Icons.Default.FolderOpen, null) },
+                            text = { Text(stringResource(R.string.add_folder)) },
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        ExtendedFloatingActionButton(
+                            onClick = { fabExpanded=false; filePickerLauncher.launch("audio/*") },
+                            icon = { Icon(Icons.Default.MusicNote, null) },
+                            text = { Text(stringResource(R.string.add_file)) },
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                    }
+                    FloatingActionButton(onClick = { fabExpanded = !fabExpanded }, shape = RoundedCornerShape(16.dp)) {
+                        Icon(if (fabExpanded) Icons.Default.Close else Icons.Default.Add, null, modifier = Modifier.size(32.dp))
+                    }
                 }
             }
         }
@@ -326,24 +426,49 @@ fun MainScreen() {
                     }
                 }
 
-                LazyColumn(modifier = Modifier.weight(1f)) {
-                    item { MusicTableHeader() }
-                    items(selectedFiles) { music ->
-                        MusicRow(
-                            music = music,
-                            isSelected = selectedIds.contains(music.id),
-                            onSelect = { 
-                                if (selectedIds.contains(music.id)) selectedIds = selectedIds - music.id
-                                else selectedIds = selectedIds + music.id
-                            },
-                            onEdit = { m -> if (!isConverting) editingFile = m },
-                            onDelete = { m -> if (!isConverting) selectedFiles = selectedFiles.filter { it.id != m.id } },
-                            onShare = { m ->
-                                val sanitizedName = sanitizeFileName(if (!m.metadata.title.isNullOrBlank() && !m.metadata.artist.isNullOrBlank()) "${m.metadata.artist} - ${m.metadata.title}" else m.name.substringBeforeLast(".")) + "." + targetFormat
-                                val file = File(internalDir, sanitizedName)
-                                if (file.exists()) shareFile(file)
+                Crossfade(targetState = isGridView, modifier = Modifier.weight(1f)) { grid ->
+                    if (grid) {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            contentPadding = PaddingValues(12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            items(selectedFiles) { music ->
+                                MusicGridItem(
+                                    music = music,
+                                    isSelected = selectedIds.contains(music.id),
+                                    onSelect = { 
+                                        if (selectedIds.contains(music.id)) selectedIds = selectedIds - music.id
+                                        else selectedIds = selectedIds + music.id
+                                    },
+                                    onEdit = { m -> if (!isConverting) editingFile = m },
+                                    onDelete = { m -> if (!isConverting) selectedFiles = selectedFiles.filter { it.id != m.id } }
+                                )
                             }
-                        )
+                        }
+                    } else {
+                        LazyColumn(modifier = Modifier.fillMaxSize()) {
+                            item { MusicTableHeader() }
+                            items(selectedFiles) { music ->
+                                MusicRow(
+                                    music = music,
+                                    isSelected = selectedIds.contains(music.id),
+                                    onSelect = { 
+                                        if (selectedIds.contains(music.id)) selectedIds = selectedIds - music.id
+                                        else selectedIds = selectedIds + music.id
+                                    },
+                                    onEdit = { m -> if (!isConverting) editingFile = m },
+                                    onDelete = { m -> if (!isConverting) selectedFiles = selectedFiles.filter { it.id != m.id } },
+                                    onShare = { m ->
+                                        val sanitizedName = sanitizeFileName(if (!m.metadata.title.isNullOrBlank() && !m.metadata.artist.isNullOrBlank()) "${m.metadata.artist} - ${m.metadata.title}" else m.name.substringBeforeLast(".")) + "." + targetFormat
+                                        val file = File(internalDir, sanitizedName)
+                                        if (file.exists()) shareFile(file)
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
 
@@ -414,6 +539,17 @@ fun MainScreen() {
         }
     }
 
+    if (isLoadingFiles) {
+        Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha=0.5f)).clickable(enabled=false){}, contentAlignment = Alignment.Center) {
+            Card(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    CircularProgressIndicator()
+                    Text(stringResource(R.string.loading_files))
+                }
+            }
+        }
+    }
+
     if (showConfetti) ConfettiOverlay()
 }
 
@@ -472,34 +608,107 @@ fun getFileFromUri(context: Context, uri: Uri): File? {
 
 @Composable
 fun EditMetadataDialog(music: MusicFile, onDismiss: () -> Unit, onSave: (MusicMetadata) -> Unit) {
+    val context = LocalContext.current
     var title by remember { mutableStateOf(music.metadata.title ?: "") }
     var artist by remember { mutableStateOf(music.metadata.artist ?: "") }
     var track by remember { mutableStateOf(music.metadata.trackNumber ?: "") }
     var album by remember { mutableStateOf(music.metadata.album ?: "") }
     var year by remember { mutableStateOf(music.metadata.year ?: "") }
+    var genre by remember { mutableStateOf(music.metadata.genre ?: "") }
+    var composer by remember { mutableStateOf(music.metadata.composer ?: "") }
+    var discNumber by remember { mutableStateOf(music.metadata.discNumber ?: "") }
+    var comment by remember { mutableStateOf(music.metadata.comment ?: "") }
+    var lyrics by remember { mutableStateOf(music.metadata.lyrics ?: "") }
     var cover by remember { mutableStateOf(music.metadata.coverUri) }
-    val imagePicker = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { cover = it?.toString() }
+    var selectedTab by remember { mutableStateOf(0) }
+    val imagePicker = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { if (it != null) cover = it.toString() }
+
+    val searchGoogle = { query: String ->
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q=${Uri.encode(query)}"))
+        context.startActivity(intent)
+    }
+
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.edit_tags)) },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(modifier = Modifier.size(100.dp).clip(RoundedCornerShape(8.dp)).background(Color.Gray).clickable { imagePicker.launch("image/*") }, contentAlignment = Alignment.Center) {
-                    if (cover != null) AsyncImage(model = cover, null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-                    else Icon(Icons.Default.Add, null, tint = Color.White)
+        title = {
+            Column {
+                Text(stringResource(R.string.edit_tags), fontWeight = FontWeight.Bold)
+                TabRow(selectedTabIndex = selectedTab) {
+                    Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 }) { Text(stringResource(R.string.basic_info), modifier = Modifier.padding(vertical = 12.dp), style = MaterialTheme.typography.labelMedium) }
+                    Tab(selected = selectedTab == 1, onClick = { selectedTab = 1 }) { Text(stringResource(R.string.advanced_info), modifier = Modifier.padding(vertical = 12.dp), style = MaterialTheme.typography.labelMedium) }
                 }
-                OutlinedTextField(value = title, onValueChange = { title = it }, label = { Text(stringResource(R.string.title)) })
-                OutlinedTextField(value = artist, onValueChange = { artist = it }, label = { Text(stringResource(R.string.artist)) })
-                OutlinedTextField(value = album, onValueChange = { album = it }, label = { Text(stringResource(R.string.album)) })
-                OutlinedTextField(value = track, onValueChange = { track = it }, label = { Text(stringResource(R.string.track_number)) })
-                OutlinedTextField(value = year, onValueChange = { year = it }, label = { Text(stringResource(R.string.year)) })
             }
         },
-        confirmButton = { TextButton(onClick = { onSave(music.metadata.copy(title = title, artist = artist, album = album, trackNumber = track, year = year, coverUri = cover)) }) { Text(stringResource(R.string.save)) } },
+        text = {
+            Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                if (selectedTab == 0) {
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
+                        Box(modifier = Modifier.size(100.dp).clip(RoundedCornerShape(8.dp)).background(Color.Gray).clickable { imagePicker.launch("image/*") }, contentAlignment = Alignment.Center) {
+                            if (cover != null) AsyncImage(model = cover, contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                            else Icon(Icons.Default.Add, null, tint = Color.White)
+                        }
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            OutlinedButton(onClick = { searchGoogle("$artist $title cover art") }, modifier = Modifier.height(36.dp)) { Text(stringResource(R.string.search_cover), style = MaterialTheme.typography.labelSmall) }
+                            OutlinedButton(onClick = { searchGoogle("$artist $title lyrics") }, modifier = Modifier.height(36.dp)) { Text(stringResource(R.string.search_lyrics), style = MaterialTheme.typography.labelSmall) }
+                        }
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(value = title, onValueChange = { title = it }, label = { Text(stringResource(R.string.title)) }, modifier = Modifier.fillMaxWidth())
+                    OutlinedTextField(value = artist, onValueChange = { artist = it }, label = { Text(stringResource(R.string.artist)) }, modifier = Modifier.fillMaxWidth())
+                    OutlinedTextField(value = album, onValueChange = { album = it }, label = { Text(stringResource(R.string.album)) }, modifier = Modifier.fillMaxWidth())
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        OutlinedTextField(value = track, onValueChange = { track = it }, label = { Text(stringResource(R.string.track_number)) }, modifier = Modifier.weight(1f))
+                        OutlinedTextField(value = year, onValueChange = { year = it }, label = { Text(stringResource(R.string.year)) }, modifier = Modifier.weight(1f))
+                    }
+                } else {
+                    OutlinedTextField(value = genre, onValueChange = { genre = it }, label = { Text(stringResource(R.string.genre)) }, modifier = Modifier.fillMaxWidth())
+                    OutlinedTextField(value = composer, onValueChange = { composer = it }, label = { Text(stringResource(R.string.composer)) }, modifier = Modifier.fillMaxWidth())
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        OutlinedTextField(value = discNumber, onValueChange = { discNumber = it }, label = { Text(stringResource(R.string.disc_number)) }, modifier = Modifier.fillMaxWidth())
+                    }
+                    OutlinedTextField(value = comment, onValueChange = { comment = it }, label = { Text(stringResource(R.string.comment)) }, modifier = Modifier.fillMaxWidth())
+                    OutlinedTextField(value = lyrics, onValueChange = { lyrics = it }, label = { Text(stringResource(R.string.lyrics)) }, modifier = Modifier.fillMaxWidth(), minLines = 3, maxLines = 5)
+                }
+            }
+        },
+        confirmButton = { TextButton(onClick = { onSave(music.metadata.copy(title = title, artist = artist, album = album, trackNumber = track, year = year, coverUri = cover, genre = genre, composer = composer, discNumber = discNumber, comment = comment, lyrics = lyrics)) }) { Text(stringResource(R.string.save)) } },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel_button)) } }
     )
 }
 
+@Composable
+fun MusicGridItem(music: MusicFile, isSelected: Boolean, onSelect: () -> Unit, onEdit: (MusicFile) -> Unit, onDelete: (MusicFile) -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth().aspectRatio(0.85f).clickable { onSelect() },
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+    ) {
+        Column {
+            Box(modifier = Modifier.fillMaxWidth().weight(1f).clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))) {
+                if (music.metadata.coverUri != null) {
+                    AsyncImage(model = music.metadata.coverUri, contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                } else {
+                    Box(modifier = Modifier.fillMaxSize().background(Color.Gray.copy(alpha = 0.3f)), contentAlignment = Alignment.Center) {
+                        Icon(Icons.Default.MusicNote, null, modifier = Modifier.size(48.dp), tint = Color.Gray)
+                    }
+                }
+                if (isSelected) {
+                    Box(modifier = Modifier.padding(8.dp).align(Alignment.TopEnd).size(24.dp).clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.primary), contentAlignment = Alignment.Center) {
+                        Icon(Icons.Default.Check, null, tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(16.dp))
+                    }
+                }
+            }
+            Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+                Text(music.metadata.title ?: music.name, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(music.metadata.artist ?: "-", style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Row(modifier = Modifier.fillMaxWidth().padding(top = 4.dp), horizontalArrangement = Arrangement.End) {
+                    IconButton(onClick = { onEdit(music) }, modifier = Modifier.size(24.dp)) { Icon(Icons.Default.Edit, null, modifier = Modifier.size(14.dp)) }
+                    IconButton(onClick = { onDelete(music) }, modifier = Modifier.size(24.dp)) { Icon(Icons.Default.Close, null, modifier = Modifier.size(14.dp)) }
+                }
+            }
+        }
+    }
+}
 @Composable
 fun BatchEditMetadataDialog(onDismiss: () -> Unit, onSave: (String, String, String, String) -> Unit) {
     var artist by remember { mutableStateOf("") }

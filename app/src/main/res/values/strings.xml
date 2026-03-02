@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Müzik Dönüştürücü</string>
-    <string name="add_file">Dosya Ekle</string>
+    <string name="add_file">Dosyaları Seç</string>
+    <string name="add_folder">Klasörden Ekle</string>
+    <string name="loading_files">Dosyalar Yükleniyor...</string>
     <string name="convert">Dönüştür</string>
     <string name="title">Şarkı Adı</string>
     <string name="artist">Sanatçı</string>
@@ -27,4 +29,15 @@
     <string name="deselect_all">Seçimi Kaldır</string>
     <string name="album">Albüm</string>
     <string name="year">Yıl</string>
+    <string name="genre">Tür</string>
+    <string name="composer">Besteci</string>
+    <string name="disc_number">Disk No</string>
+    <string name="comment">Yorum</string>
+    <string name="lyrics">Sözler</string>
+    <string name="view_list">Liste</string>
+    <string name="view_grid">Kitaplık</string>
+    <string name="search_lyrics">Sözleri Ara</string>
+    <string name="search_cover">Kapak Ara</string>
+    <string name="basic_info">Temel Bilgiler</string>
+    <string name="advanced_info">Detaylı Bilgiler</string>
 </resources>

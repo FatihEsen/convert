@@ -24,6 +24,9 @@ object MetadataParser {
             val album = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
             val trackNumber = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER)
             val year = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR)
+            val genre = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE)
+            val composer = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER)
+            val discNumber = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DISC_NUMBER)
             
             // Get cover image
             val art = retriever.embeddedPicture
@@ -47,6 +50,9 @@ object MetadataParser {
                     album = album,
                     trackNumber = trackNumber,
                     year = year,
+                    genre = genre,
+                    composer = composer,
+                    discNumber = discNumber,
                     coverUri = coverUri
                 )
             } else {

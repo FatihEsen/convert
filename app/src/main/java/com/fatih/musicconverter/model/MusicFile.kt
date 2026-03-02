@@ -6,7 +6,12 @@ data class MusicMetadata(
     val album: String? = null,
     val trackNumber: String? = null,
     val year: String? = null,
-    val coverUri: String? = null
+    val coverUri: String? = null,
+    val genre: String? = null,
+    val composer: String? = null,
+    val discNumber: String? = null,
+    val comment: String? = null,
+    val lyrics: String? = null
 )
 
 data class MusicFile(

@@ -37,4 +37,4 @@ Bu uygulama, Android cihazlarda müzik dosyalarını dönüştürmek, etiketleri
     -   *Not: Derleme için JDK 17 önerilir.*
 
 ---
-*Geliştiren: Fatih Esen*
+*Geliştiren: Fatih Esen & Antigravity 🚀*
